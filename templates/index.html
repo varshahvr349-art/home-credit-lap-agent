@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home Credit LAP Voice Agent</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">HC</div>
+      <div>
+        <p class="eyebrow">LOAN AGAINST PROPERTY</p>
+        <h1>Home Credit Voice Agent</h1>
+      </div>
+      <span class="mode-badge">SIMULATION</span>
+    </header>
+
+    <section class="intro" aria-labelledby="welcome-heading">
+      <div>
+        <p class="eyebrow accent">CUSTOMER QUALIFICATION</p>
+        <h2 id="welcome-heading">A clear, helpful first conversation.</h2>
+        <p class="lead">This workspace will let you practice a Loan Against Property qualification call with fictional test customers.</p>
+      </div>
+      <aside class="offer-card">
+        <span class="offer-label">POTENTIAL OFFER</span>
+        <strong>Up to ₹75 lakh</strong>
+        <span>Subject to eligibility checks and final approval</span>
+      </aside>
+    </section>
+
+    <section class="workspace" aria-label="Simulation workspace">
+      <div class="panel setup-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">STEP 1</p>
+            <h3>Prepare a test call</h3>
+          </div>
+          <span class="step-number">01</span>
+        </div>
+        <label for="customer">Fictional customer</label>
+        <select id="customer">
+          <option value="ravi">Ravi (fictional test customer)</option>
+        </select>
+        <button class="primary-button" id="start-button" type="button">Start simulated conversation</button>
+        <p class="helper">Speak using the microphone when supported, or type a response. This simulation never places calls.</p>
+        <p class="helper" id="llm-mode">{% if llm_status.mode == 'groq' %}Groq configured ({{ llm_status.model }}); service availability is checked when responding.{% elif llm_status.mode == 'unavailable' %}Groq key is configured but the SDK is unavailable. Install requirements to enable it.{% else %}Deterministic simulation active. Configure GROQ_API_KEY locally to enable Groq.{% endif %}</p>
+        <div class="privacy-note"><span aria-hidden="true">●</span> Local demo only · No calls are placed</div>
+      </div>
+
+      <div class="panel conversation-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">CALL TRANSCRIPT</p>
+            <h3>Conversation preview</h3>
+          </div>
+          <span class="status-pill" id="conversation-status">Not started</span>
+        </div>
+        <div class="transcript-empty" id="transcript-empty">
+          <div class="sound-icon" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <p>Your simulated conversation will appear here.</p>
+          <span>Press “Start simulated conversation” to begin.</span>
+        </div>
+        <div class="transcript" id="transcript" aria-live="polite" aria-label="Conversation transcript"></div>
+        <p class="voice-status" id="voice-status" role="status">Ready</p>
+        <div class="message-input">
+          <input id="customer-response" type="text" placeholder="Type or speak your response" disabled aria-label="Customer response">
+          <button class="done-speaking-button" id="done-speaking-button" type="button" disabled>Done Speaking</button>
+          <button class="mic-button" id="microphone-button" type="button" disabled aria-label="Speak response" title="Speak response">🎙</button>
+          <button id="send-button" type="button" disabled aria-label="Send response" title="Send response">↑</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>Prototype interface · Pre-approval is not a guarantee of final loan approval.</footer>
+  </main>
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</body>
+</html>
